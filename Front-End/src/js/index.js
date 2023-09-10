@@ -103,10 +103,14 @@ var searchItemsContainer = {
 ////////////////////////
 
 // Initializes the map using the Mapbox API and Leaflet.
+<<<<<<< HEAD
 
 
 
 var mymap = L.map("map").setView([6.6904378395789985, -1.6149902498988071], 50);
+=======
+var mymap = L.map("map").setView([6.72001, -1.63239], 16);
+>>>>>>> 6ec4d49db5a4133b5bb03a687ce05a9797107b37
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/aferman/ckhvetwgy0bds19nznkfvodbx/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWZlcm1hbiIsImEiOiJja2ZrZXJvbjUwZW5wMnhxcjdyMXc3ZjRnIn0.WGdId2uO9XokPaJmaxlLXg",
   {
