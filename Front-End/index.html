@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--
+-- Husky Navigation
+-- @version 2.0
+-- @date 11.06.2021
+-- @url https://huskynavigation.azurewebsites.net
+-->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">
+    <meta name="Husky Navigation" />
+    <meta name="keywords" content="husky navigation, hnav, localized mapping, campus navigation, uw campus map, washington campus map" />
+    <meta name="description" content="Localized mapping service prototype for ground-up navigation of the University of Washington campus via shortest-route routing." />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5175XW1NS8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-5175XW1NS8');
+    </script>
+    <title>Aamusted Navigation</title>
+    <!-- For Webpage Icon (appears on browser tab) -->
+    <link rel="icon" href="./src/assets/logos/HuskyNavLogoTransparent.png">
+    <!-- Primary Stylesheets -->
+    <link rel="stylesheet" href="./src/css/index.css">
+    <link rel="stylesheet" href="./src/css/toggleSwitch.css">
+    <link rel="stylesheet" href="./src/css/weather.css">
+    <link rel="stylesheet" href="./src/css/logo.css">
+    <link rel="stylesheet" href="./src/css/popup.css">
+    <!-- For LeafletJS Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <!-- For sending emails via Smtp.JS API -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <!-- Load primary JavaScript source code -->
+    <script src="./src/js/index.js" defer></script>
+    <script src="./src/js/scripts/popup.js" defer></script>
+</head>
+
+<body>
+    <!-- Map -->
+    <div id="map"></div>
+
+    <div id="dev-resources">
+        <a id="dev-resources-text" href="https://hnavcontent.azurewebsites.net">Developer Tools</a><span id="close-dev-x">+</span>
+    </div>
+
+    <!-- Content -->
+    <div id="content">
+        <!-- Left Sidebar -->
+        <div>
+            <div id="sidebarLeft">
+                <div id="titleElements">
+                    <!-- Title + Slant -->
+                    <h1 id="title">AAMUSTED Navigation</h1>
+                    <span id="title-slant" class="uw-slant-large"></span>
+                    <!-- replace with aamusted website -->
+
+                    <div id="aamustedLogo">
+
+                     <img src="./src/assets/uwWordmarks/Aamusted logo fit.png" width="120" >
+
+                    </div>
+
+
+
+                       <!-- <div id="uw-wordmark-container"> -->
+
+                       
+                        <!-- <a href="https://aamusted.edu.gh"> -->
+
+                        <!-- <a href="https://www.washington.edu"> -->
+
+                            <!-- create aamusted water mark png to replace this -->
+                            <!-- <img id="uw-wordmark" src="./src/assets/uwWordmarks/Aamusted logo.png" alt="uwWordmarks/UnivWaWordmark.png"> -->
+
+                            <!-- <img id="uw-wordmark" src="./src/assets/uwWordmarks/Aamusted logo.png"> -->
+                        <!-- </a> -->
+                        <!-- </div> -->
+                </div>
+
+                <!-- Nav -->
+                <div id="nav-header-container">
+                    <h6 id="navHeader" class="header">NAVIGATION </h6>
+                    <img id="nav-info" class="info-icon" alt="information" src="./src/assets/miscIcons/InfoIcon.png">
+                </div>
+                <div id="nav-popup-container" class="is-not-visible">
+                    <h4 class="instruction-header">Walk between campus locations with <span class="underline">Navigation</span></h4>
+                    <p class="instruction-header">Select a start and destination to begin.</p>
+                </div>
+                <span class="uw-slant"></span>
+
+                <!-- Input Fields -->
+                <div id="navSection" class="inputs contentSection">
+                    <!-- Select Start -->
+                    <div class="inputDiv">
+                        <select aria-label="Starting Point" name="startingPoints" id="startingPointsId" class="select">
+                            <!-- Default -->
+                            <option value="--Select Starting Point--">--Select Starting Point--</option>
+                            <!-- All Locations Grouped by Type -->
+                            <!-- [Dynamically added] -->
+                        </select>
+                    </div>
+
+                    <!-- Select End -->
+                    <div class="inputDiv">
+                        <!--<img class="miniEndMarker" src="MarkerIcon2.png"></img>-->
+                        <select aria-label="Destination" name="destinations" id="destinationsId" class="select">
+                            <!-- Default -->
+                            <option value="--Select Destination--">--Select Destination--</option>
+                            <!-- All Locations Grouped by Type -->
+                            <!-- [Dynamically added] -->
+                        </select>
+                    </div>
+                    <!-- Navigation Button -->
+                    <button id="navBtn" class="navBtn">Navigate</button>
+                </div>
+
+                <!-- Buildings List -->
+                <h6 id="buildingsHeader" class="header"> BUILDINGS </h6>
+                <span class="uw-slant"></span>
+                <!-- TODO: "height: 0px" attribute is not included in stylesheet since it gets overwritten somehow, leading
+                to bug where the user must click on a header twice before it functions properly. Fix style. -->
+                <div id="buildingsSection" class="contentSection" style="height: 0px;">
+                    <input type="text" class="searchBar" id="buildingsSearch" placeholder="Search for buildings..">
+                    <div id="building-container" class="vertical-menu">
+                        <!-- [Dynamically Added] -->
+                    </div>
+                </div>
+
+                <!-- Libraries List -->
+                <h6 id="librariesHeader" class="header"> LIBRARIES </h6>
+                <span class="uw-slant"></span>
+                <div id="librariesSection" class="contentSection" style="height: 0px;">
+                    <input type="text" class="searchBar" id="librariesSearch" placeholder="Search for libraries..">
+                    <div id="library-container" class="vertical-menu">
+                        <!-- [Dynamically Added] -->
+                    </div>
+                </div>
+
+                <!-- Bus Stops List -->
+                <h6 id="stopHeader" class="header"> BUS STOPS </h6>
+                <span class="uw-slant"></span>
+                <div id="stopSection" class="contentSection" style="height: 0px;">
+                    <input type="text" class="searchBar" id="busStopSearch" placeholder="Search for bus stops..">
+                    <div id="bus-stop-container" class="vertical-menu">
+                        <!-- [Dynamically Added] -->
+                    </div>
+                </div>
+
+                <!--Feedback-->
+                <h6 id="feedbackHeader" class="header"> FEEDBACK </h6>
+                <span class="uw-slant"></span>
+                <div id="feedbackSection" class="contentSection" style="height: 0px;">
+                    <!-- Feedback Input -->
+                    <textarea id="feedbackInput" aria-label="Feedback" name="Feedback" rows="4" cols="24" placeholder='What can we improve? We truly appreciate your feedback, feel free to leave your email! '></textarea>
+                    <!-- Feedback Submission Button -->
+                    <button id="submitFeedback"> Submit </button>
+                </div>
+
+                <!--About Us-->
+                <h6 id="aboutHeader" class="header"> ABOUT US </h6>
+                <span class="uw-slant"></span>
+                <div id="aboutSection" class="contentSection" style="height: 0px;">
+                    <p class="contributor"><a style="color: whitesmoke; text-decoration:none;" href="">Abdul Rafiu Sagyardoo Abdulai</a>Index : 5191040139</p>
+                    <p class="contributor"><a style="color: whitesmoke; text-decoration:none;" href="">Abdulai Seidu </a> 5191040121</p>
+                </div>
+                <div id="terms">
+                    <a style="color: gray; text-decoration:underline;" href="./public/Terms-of-Service/">Terms of Service</a>
+                    <span style="color: gray; text-decoration:underline;">|</span>
+                    <a style="color: gray; text-decoration:underline;" href="./public/Cookie-Policy/">Cookie Policy</a>
+                </div>
+            </div>
+            <div id="expand-icon-div" onclick="toggleSideBarMobile()">
+                <hr class="expand-icon-bar">
+                <hr class="expand-icon-bar">
+                <hr class="expand-icon-bar">
+            </div>
+        </div>
+        <!-- Right Sidebar (in the same row as the main logo) -->
+        <div class="sidebarRight">
+            <img id="logo" src="./src/assets/logos/HuskyNavLogoWhite.png">
+        </div>
+
+        <!-- Horizontal Sidebar -->
+        <div id="horizontalBarId" class="horizontalBar">
+            <!-- Start -->
+            <img id="startMarker" class="marker" alt="Start Point Icon" src="./src/assets/markerIcons/EmptyRedCircle.png">
+            <p id="from" class="tofrom">Select Starting Point</p>
+            <div class="horizontalSpacer"></div>
+            <!-- End -->
+            <img id="endMarker" class="marker" alt="End Point Icon" src="./src/assets/markerIcons/RedMarker.png">
+            <p id="to" class="tofrom">Select Destination</p>
+            <!-- Distance -->
+            <div class="bar"> &#9474 </div>
+            <div id="distance"> Distance: &#8211 &#8211 mi </div>
+            <!-- ETA -->
+            <div class="bar"> &#9474 </div>
+            <div id="eta"> ETA: &#8211 &#8211 min </div>
+            <!-- Theme Switch -->
+            <div class="bar"> &#9474 </div>
+            <!-- Weather Icon and Weather Popup -->
+            <div id="weatherDiv">
+                <!-- Weather Icon -->
+                <img id="weatherIcon" src="./src/assets/miscIcons/TransparentPlaceholderIcon.png" alt="//:0">
+                <!-- Weather Popup (Sky Conditions) -->
+                <!-- TODO: Fix same double-clicking styling issue as above -->
+                <div id="weatherPopup" style="height: 0px;">
+                    <!-- Popup upward arrow -->
+                    <svg viewBox="0 0 20 10" id="arrow">
+                        <polygon points="0, 10, 20, 10, 10, 0"/>
+                    </svg>
+                    <!-- Popup Rectangle -->
+                    <div id="weatherPopupBody">
+                        <!-- Popup Text -->
+                        <div id="weatherPopupText">
+                            <!-- Popup Header -->
+                            <p id="weatherPopupHeader">It's Raining in Seattle Now!</p>
+                            <!-- Popup Data -->
+                            <p id="weatherPopupData"> 45&#176F / 7&#176C <br> 10 <small>MPH</small> Wind</p>
+                            <!--<p id="weatherPopupData1" style="display: inline-block; "> No <br> Rain </p>-->
+                            <!-- Popup Sub-Icon (Need Umbrella or Not?)-->
+                            <img id="weatherIconMini" src="./src/assets/umbrellaIcons/RainIcon.png" alt="//:0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Location Icon -->
+            <div id="locationIconDiv" title="Return to UW">
+                <img id="locationIcon" src="./src/assets/miscIcons/LocationIcon.png" alt="//:0">
+            </div>
+            <!-- GitHub Page Icon -->
+            <div class="githubIconDiv" title="Visit GitHub Repository">
+                <a href="https://github.com/Husky-Navigation-Services/Husky-Navigation" aria-label="Visit GitHub Repository">
+                    <img alt="GitHub Icon" src="./src/assets/miscIcons/GithubIcon.png" id="githubIcon">
+                </a>
+            </div>
+            <!-- Coffee Cup Icon (Monetized) -->
+            <!--
+            <div id="coffeeIconDiv">
+            \\ Alternative link: https://www.paypal.com/paypalme/AmitFerman
+                <a href="buymeacoffee.com/huskynavigation">
+                    <img title="Buy Us a Coffee!" src="miscIcons/BMCIcon.png" id="coffeeCupIcon">
+                </a>
+            </div>
+            -->
+            <!-- Color Theme Switcher -->
+            <label id="switch">
+                <input aria-label="checkbox" id="themeCheckbox" type="checkbox">
+                <span id="slider"></span>
+            </label>
+        </div>
+    </div>
+
+</body>
+
+</html>
