@@ -103,7 +103,10 @@ var searchItemsContainer = {
 ////////////////////////
 
 // Initializes the map using the Mapbox API and Leaflet.
-var mymap = L.map("map").setView([47.654047, -122.30854], 16);
+
+
+
+var mymap = L.map("map").setView([6.6904378395789985, -1.6149902498988071], 50);
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/aferman/ckhvetwgy0bds19nznkfvodbx/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWZlcm1hbiIsImEiOiJja2ZrZXJvbjUwZW5wMnhxcjdyMXc3ZjRnIn0.WGdId2uO9XokPaJmaxlLXg",
   {
@@ -132,6 +135,12 @@ z =
 mymap.zoomControl.setPosition("bottomright");
 var pathGroup = new L.LayerGroup();
 pathGroup.addTo(mymap);
+
+// mapMarker
+var singleMarker = L.marker([6.6904378395789985, -1.6149902498988071]);
+var popup = singleMarker.bindPopup("AAMUSTED").openPopup()
+popup.addTo(mymap);
+
 
 /////////////////////
 // Initialize Location Data

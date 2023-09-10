@@ -27,7 +27,7 @@
   margin: 10px;
   height: calc(100% - 20px);
   width: 288px;
-  background-color: #4b2e83;
+  background-color: #8C003B;
   border-radius: 10px;
   transition: 0.5s;
   pointer-events: auto;
@@ -121,7 +121,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  background-color: #4b2e83;
+  background-color: #8C003B;
   width: calc(100% - 398px);
   height: 70px;
   border-radius: 10px;
@@ -297,7 +297,7 @@ option {
 
 
 #title {
-  color: rgb(255, 0, 0);
+  color: #006938;
   font-size: 16pt;
   width: 220px;
   box-sizing: border-box;
